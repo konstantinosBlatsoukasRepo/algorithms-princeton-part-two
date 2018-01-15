@@ -30,8 +30,8 @@
       <file leaf-file-name="SAP.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/SAP.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+            <state relative-caret-position="340">
+              <caret line="116" column="0" lean-forward="false" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#length#0;class#SAP#0" expanded="false" />
@@ -39,8 +39,6 @@
                 <element signature="method#calculatePathToRoot#0;class#SAP#0" expanded="false" />
                 <element signature="method#getCommonAncestors#0;class#SAP#0" expanded="false" />
                 <element signature="method#getElectedAncestor#0;class#SAP#0" expanded="false" />
-                <element signature="method#length#1;class#SAP#0" expanded="false" />
-                <element signature="method#ancestor#1;class#SAP#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -49,26 +47,14 @@
       <file leaf-file-name="WordNet.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/WordNet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="119" column="0" lean-forward="true" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+            <state relative-caret-position="259">
+              <caret line="121" column="53" lean-forward="false" selection-start-line="121" selection-start-column="53" selection-end-line="121" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1745#1746#0" expanded="true" />
-                <element signature="e#1773#1774#0" expanded="true" />
+                <element signature="method#readSynsets#0;class#WordNet#0" expanded="false" />
+                <element signature="method#extractWordNetNouns#0;class#WordNet#0" expanded="false" />
                 <element signature="method#createGraphFromTxt#0;class#WordNet#0" expanded="false" />
                 <element signature="class#Synset#0;class#WordNet#0" expanded="false" />
-                <element signature="e#4511#4512#0" expanded="true" />
-                <element signature="e#4550#4551#0" expanded="true" />
-                <element signature="e#4599#4600#0" expanded="true" />
-                <element signature="e#4647#4648#0" expanded="true" />
-                <element signature="e#4689#4690#0" expanded="true" />
-                <element signature="e#4725#4726#0" expanded="true" />
-                <element signature="e#4777#4778#0" expanded="true" />
-                <element signature="e#4819#4820#0" expanded="true" />
-                <element signature="e#4861#4862#0" expanded="true" />
-                <element signature="e#4903#4904#0" expanded="true" />
-                <element signature="e#4961#4962#0" expanded="true" />
-                <element signature="e#5015#5016#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -77,9 +63,16 @@
       <file leaf-file-name="Digraph.java" pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/Downloads/algs4.jar!/edu/princeton/cs/algs4/Digraph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
-              <caret line="77" column="5" lean-forward="true" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
-              <folding />
+            <state relative-caret-position="1000">
+              <caret line="77" column="5" lean-forward="false" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="e#4611#4620#0" expanded="false" />
+                <element signature="e#4965#4966#0" expanded="false" />
+                <element signature="e#4989#4990#0" expanded="false" />
+                <element signature="e#5137#5138#0" expanded="false" />
+                <element signature="e#5161#5162#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -87,11 +80,10 @@
       <file leaf-file-name="BreadthFirstDirectedPaths.java" pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/Downloads/algs4.jar!/edu/princeton/cs/algs4/BreadthFirstDirectedPaths.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="107" column="21" lean-forward="true" selection-start-line="107" selection-start-column="21" selection-end-line="107" selection-end-column="30" />
+            <state relative-caret-position="40">
+              <caret line="85" column="0" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
               <folding>
                 <element signature="method#BreadthFirstDirectedPaths#0;class#BreadthFirstDirectedPaths#0" expanded="false" />
-                <element signature="method#BreadthFirstDirectedPaths#1;class#BreadthFirstDirectedPaths#0" expanded="false" />
                 <element signature="method#bfs#0;class#BreadthFirstDirectedPaths#0" expanded="false" />
                 <element signature="method#bfs#1;class#BreadthFirstDirectedPaths#0" expanded="false" />
               </folding>
@@ -172,8 +164,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -256,6 +246,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -609,20 +601,20 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32972136" sideWeight="0.5123506" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32972136" sideWeight="0.5187251" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988048" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32972136" sideWeight="0.4876494" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32972136" sideWeight="0.4812749" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.48446214" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.47808766" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22151394" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.225498" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.083591335" sideWeight="0.49083665" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2647059" sideWeight="0.4876494" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -650,8 +642,14 @@
           <properties />
           <option name="timeStamp" value="5" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/WordNet.java</url>
+          <line>97</line>
+          <properties />
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="9" />
+      <option name="time" value="11" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -671,6 +669,78 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/SAP.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2600">
+          <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#length#0;class#SAP#0" expanded="false" />
+            <element signature="method#calculateAncestor#0;class#SAP#0" expanded="false" />
+            <element signature="method#calculatePathToRoot#0;class#SAP#0" expanded="false" />
+            <element signature="method#getCommonAncestors#0;class#SAP#0" expanded="false" />
+            <element signature="method#getElectedAncestor#0;class#SAP#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Downloads/algs4.jar!/edu/princeton/cs/algs4/Digraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1540">
+          <caret line="77" column="5" lean-forward="true" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#4611#4620#0" expanded="false" />
+            <element signature="e#4965#4966#0" expanded="false" />
+            <element signature="e#4989#4990#0" expanded="false" />
+            <element signature="e#5137#5138#0" expanded="false" />
+            <element signature="e#5161#5162#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Downloads/algs4.jar!/edu/princeton/cs/algs4/BreadthFirstDirectedPaths.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2140">
+          <caret line="107" column="21" lean-forward="true" selection-start-line="107" selection-start-column="21" selection-end-line="107" selection-end-column="30" />
+          <folding>
+            <element signature="method#BreadthFirstDirectedPaths#0;class#BreadthFirstDirectedPaths#0" expanded="false" />
+            <element signature="method#bfs#0;class#BreadthFirstDirectedPaths#0" expanded="false" />
+            <element signature="method#bfs#1;class#BreadthFirstDirectedPaths#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/digraph1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/WordNet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="27" lean-forward="true" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#readSynsets#0;class#WordNet#0" expanded="false" />
+            <element signature="method#extractWordNetNouns#0;class#WordNet#0" expanded="false" />
+            <element signature="method#createGraphFromTxt#0;class#WordNet#0" expanded="false" />
+            <element signature="class#Synset#0;class#WordNet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="21" column="12" lean-forward="false" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/SAP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2600">
           <caret line="130" column="0" lean-forward="true" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -679,8 +749,6 @@
             <element signature="method#calculatePathToRoot#0;class#SAP#0" expanded="false" />
             <element signature="method#getCommonAncestors#0;class#SAP#0" expanded="false" />
             <element signature="method#getElectedAncestor#0;class#SAP#0" expanded="false" />
-            <element signature="method#length#1;class#SAP#0" expanded="false" />
-            <element signature="method#ancestor#1;class#SAP#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -691,7 +759,6 @@
           <caret line="107" column="18" lean-forward="true" selection-start-line="107" selection-start-column="18" selection-end-line="107" selection-end-column="18" />
           <folding>
             <element signature="method#BreadthFirstDirectedPaths#0;class#BreadthFirstDirectedPaths#0" expanded="false" />
-            <element signature="method#BreadthFirstDirectedPaths#1;class#BreadthFirstDirectedPaths#0" expanded="false" />
             <element signature="method#bfs#0;class#BreadthFirstDirectedPaths#0" expanded="false" />
             <element signature="method#bfs#1;class#BreadthFirstDirectedPaths#0" expanded="false" />
           </folding>
@@ -712,22 +779,10 @@
           <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1745#1746#0" expanded="true" />
-            <element signature="e#1773#1774#0" expanded="true" />
+            <element signature="method#readSynsets#0;class#WordNet#0" expanded="false" />
+            <element signature="method#extractWordNetNouns#0;class#WordNet#0" expanded="false" />
             <element signature="method#createGraphFromTxt#0;class#WordNet#0" expanded="false" />
             <element signature="class#Synset#0;class#WordNet#0" expanded="false" />
-            <element signature="e#4511#4512#0" expanded="true" />
-            <element signature="e#4550#4551#0" expanded="true" />
-            <element signature="e#4599#4600#0" expanded="true" />
-            <element signature="e#4647#4648#0" expanded="true" />
-            <element signature="e#4689#4690#0" expanded="true" />
-            <element signature="e#4725#4726#0" expanded="true" />
-            <element signature="e#4777#4778#0" expanded="true" />
-            <element signature="e#4819#4820#0" expanded="true" />
-            <element signature="e#4861#4862#0" expanded="true" />
-            <element signature="e#4903#4904#0" expanded="true" />
-            <element signature="e#4961#4962#0" expanded="true" />
-            <element signature="e#5015#5016#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -751,8 +806,6 @@
             <element signature="method#calculatePathToRoot#0;class#SAP#0" expanded="false" />
             <element signature="method#getCommonAncestors#0;class#SAP#0" expanded="false" />
             <element signature="method#getElectedAncestor#0;class#SAP#0" expanded="false" />
-            <element signature="method#length#1;class#SAP#0" expanded="false" />
-            <element signature="method#ancestor#1;class#SAP#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -763,7 +816,6 @@
           <caret line="52" column="0" lean-forward="true" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
           <folding>
             <element signature="method#BreadthFirstDirectedPaths#0;class#BreadthFirstDirectedPaths#0" expanded="false" />
-            <element signature="method#BreadthFirstDirectedPaths#1;class#BreadthFirstDirectedPaths#0" expanded="false" />
             <element signature="method#bfs#0;class#BreadthFirstDirectedPaths#0" expanded="false" />
             <element signature="method#bfs#1;class#BreadthFirstDirectedPaths#0" expanded="false" />
           </folding>
@@ -789,8 +841,6 @@
             <element signature="method#calculatePathToRoot#0;class#SAP#0" expanded="false" />
             <element signature="method#getCommonAncestors#0;class#SAP#0" expanded="false" />
             <element signature="method#getElectedAncestor#0;class#SAP#0" expanded="false" />
-            <element signature="method#length#1;class#SAP#0" expanded="false" />
-            <element signature="method#ancestor#1;class#SAP#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -814,8 +864,6 @@
             <element signature="method#calculatePathToRoot#0;class#SAP#0" expanded="false" />
             <element signature="method#getCommonAncestors#0;class#SAP#0" expanded="false" />
             <element signature="method#getElectedAncestor#0;class#SAP#0" expanded="false" />
-            <element signature="method#length#1;class#SAP#0" expanded="false" />
-            <element signature="method#ancestor#1;class#SAP#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -840,35 +888,40 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="337">
           <caret line="672" column="0" lean-forward="true" selection-start-line="672" selection-start-column="0" selection-end-line="672" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Downloads/algs4.jar!/edu/princeton/cs/algs4/Digraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1000">
+          <caret line="77" column="5" lean-forward="false" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#4611#4620#0" expanded="false" />
+            <element signature="e#4965#4966#0" expanded="false" />
+            <element signature="e#4989#4990#0" expanded="false" />
+            <element signature="e#5137#5138#0" expanded="false" />
+            <element signature="e#5161#5162#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/Downloads/algs4.jar!/edu/princeton/cs/algs4/BreadthFirstDirectedPaths.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="107" column="21" lean-forward="true" selection-start-line="107" selection-start-column="21" selection-end-line="107" selection-end-column="30" />
+        <state relative-caret-position="40">
+          <caret line="85" column="0" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
           <folding>
             <element signature="method#BreadthFirstDirectedPaths#0;class#BreadthFirstDirectedPaths#0" expanded="false" />
-            <element signature="method#BreadthFirstDirectedPaths#1;class#BreadthFirstDirectedPaths#0" expanded="false" />
             <element signature="method#bfs#0;class#BreadthFirstDirectedPaths#0" expanded="false" />
             <element signature="method#bfs#1;class#BreadthFirstDirectedPaths#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/Downloads/algs4.jar!/edu/princeton/cs/algs4/Digraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="77" column="5" lean-forward="true" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/SAP.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+        <state relative-caret-position="340">
+          <caret line="116" column="0" lean-forward="false" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#length#0;class#SAP#0" expanded="false" />
@@ -876,34 +929,20 @@
             <element signature="method#calculatePathToRoot#0;class#SAP#0" expanded="false" />
             <element signature="method#getCommonAncestors#0;class#SAP#0" expanded="false" />
             <element signature="method#getElectedAncestor#0;class#SAP#0" expanded="false" />
-            <element signature="method#length#1;class#SAP#0" expanded="false" />
-            <element signature="method#ancestor#1;class#SAP#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/WordNet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="119" column="0" lean-forward="true" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+        <state relative-caret-position="259">
+          <caret line="121" column="53" lean-forward="false" selection-start-line="121" selection-start-column="53" selection-end-line="121" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1745#1746#0" expanded="true" />
-            <element signature="e#1773#1774#0" expanded="true" />
+            <element signature="method#readSynsets#0;class#WordNet#0" expanded="false" />
+            <element signature="method#extractWordNetNouns#0;class#WordNet#0" expanded="false" />
             <element signature="method#createGraphFromTxt#0;class#WordNet#0" expanded="false" />
             <element signature="class#Synset#0;class#WordNet#0" expanded="false" />
-            <element signature="e#4511#4512#0" expanded="true" />
-            <element signature="e#4550#4551#0" expanded="true" />
-            <element signature="e#4599#4600#0" expanded="true" />
-            <element signature="e#4647#4648#0" expanded="true" />
-            <element signature="e#4689#4690#0" expanded="true" />
-            <element signature="e#4725#4726#0" expanded="true" />
-            <element signature="e#4777#4778#0" expanded="true" />
-            <element signature="e#4819#4820#0" expanded="true" />
-            <element signature="e#4861#4862#0" expanded="true" />
-            <element signature="e#4903#4904#0" expanded="true" />
-            <element signature="e#4961#4962#0" expanded="true" />
-            <element signature="e#5015#5016#0" expanded="true" />
           </folding>
         </state>
       </provider>
