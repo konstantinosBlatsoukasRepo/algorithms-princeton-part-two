@@ -1,7 +1,4 @@
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-
-import java.util.Collection;
-import java.util.StringJoiner;
+package edu.princeton.cs.algs4;
 
 /**
  * Created by k.blatsoukas on 1/15/2018.

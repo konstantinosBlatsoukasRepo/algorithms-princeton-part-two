@@ -1,4 +1,4 @@
-import edu.princeton.cs.algs4.Digraph;
+package edu.princeton.cs.algs4;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,7 +47,7 @@ public class WordNet {
         }
     }
 
-    // returns all WordNet nouns
+    // returns all edu.princeton.cs.algs4.WordNet nouns
     public Iterable<String> nouns() {
         return nouns;
     }
@@ -69,7 +69,7 @@ public class WordNet {
         return nouns;
     }
 
-    // is the word a WordNet noun?
+    // is the word a edu.princeton.cs.algs4.WordNet noun?
     public boolean isNoun(String word) {
         return nouns.contains(word);
     }

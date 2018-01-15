@@ -1,7 +1,4 @@
-import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
-import edu.princeton.cs.algs4.Digraph;
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdOut;
+package edu.princeton.cs.algs4;
 
 import java.util.List;
 import java.util.stream.Collectors;
