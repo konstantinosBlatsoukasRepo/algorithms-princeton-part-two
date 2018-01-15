@@ -10,9 +10,8 @@
         <module name="algorithmsparttwo" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="algorithms-princeton-part-two" target="1.5" />
-      <module name="algorithmsparttwo" target="1.5" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="algorithms-princeton-part-two" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
