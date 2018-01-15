@@ -1,5 +1,3 @@
-package edu.princeton.cs.algs4;
-
 /**
  * Created by k.blatsoukas on 1/15/2018.
  */

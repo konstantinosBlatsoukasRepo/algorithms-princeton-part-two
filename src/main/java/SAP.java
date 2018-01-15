@@ -1,8 +1,10 @@
-package edu.princeton.cs.algs4;
+import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
+import edu.princeton.cs.algs4.Digraph;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Set;
 
 /**
  * Created by kon on 10/1/2018.
@@ -66,19 +68,28 @@ public class SAP {
     }
 
     private List<Integer> getCommonAncestors(Iterable<Integer> vPathToRoot, Iterable<Integer> wPathToRoot) {
-        List<Integer> vConvertedPath =
-                StreamSupport.stream(vPathToRoot.spliterator(),false)
-                        .collect(Collectors.toList());
+        List<Integer> vConvertedPath = new ArrayList<>();
+        for (Integer synsetIdV : vPathToRoot) {
+            vConvertedPath.add(synsetIdV);
+        }
 
-        List<Integer> wConvertedPath =
-                StreamSupport.stream(wPathToRoot.spliterator(),false)
-                        .collect(Collectors.toList());
+        List<Integer> wConvertedPath = new ArrayList<>();
+        for (Integer synsetIdW : wPathToRoot) {
+            wConvertedPath.add(synsetIdW);
+        }
 
-        List<Integer> commonAncestors = vConvertedPath.stream().
-                filter(wConvertedPath::contains).
-                collect(Collectors.toList());
+        Set<Integer> commonAncestors = new HashSet<>();
+        for (Integer synsetIdW : wPathToRoot) {
+            for (Integer synsetIdV : vPathToRoot) {
+                if (synsetIdW.equals(synsetIdV)) {
+                    commonAncestors.add(synsetIdV);
+                }
+            }
+        }
 
-        return commonAncestors;
+        List<Integer> commons = new ArrayList<>();
+        commons.addAll(commonAncestors);
+        return commons;
     }
 
     private int getElectedAncestor(BreadthFirstDirectedPaths vBfs, List<Integer> commonAncestors) {
@@ -115,13 +126,6 @@ public class SAP {
     }
 
     public static void main(String[] args) {
-        In in = new In("digraph1.txt");
-        Digraph G = new Digraph(in);
-        SAP sap = new SAP(G);
-
-        int length   = sap.length(3,11);
-        int ancestor = sap.ancestor(3,11);
-        StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
 
     }
 }

@@ -1,11 +1,13 @@
-package edu.princeton.cs.algs4;
+import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.In;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by kon on 14/1/2018.
@@ -27,27 +29,23 @@ public class WordNet {
     }
 
     private void readSynsets(String synsets) {
-        try (Stream<String> stream = Files.lines(Paths.get(synsets))) {
-            stream.forEach((line) -> {
-                String[] values = line.split(",");
+        In file = new In(synsets);
+        while (file.hasNextLine()) {
+            String[] values = file.readLine().split(",");
 
-                int synsetId = Integer.parseInt(values[0]);
-                String[] nouns = values[1].split(" ");
-                String description = values[2];
+            int synsetId = Integer.parseInt(values[0]);
+            String[] nouns = values[1].split(" ");
+            String description = values[2];
 
-                Synset currentSynset = new Synset();
-                currentSynset.setNouns(Arrays.asList(nouns));
-                currentSynset.setDescription(description);
+            Synset currentSynset = new Synset();
+            currentSynset.setNouns(Arrays.asList(nouns));
+            currentSynset.setDescription(description);
 
-                synsetsObj.put(synsetId, currentSynset);
-                }
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
+            synsetsObj.put(synsetId, currentSynset);
         }
     }
 
-    // returns all edu.princeton.cs.algs4.WordNet nouns
+    // returns all WordNet nouns
     public Iterable<String> nouns() {
         return nouns;
     }
@@ -69,27 +67,23 @@ public class WordNet {
         return nouns;
     }
 
-    // is the word a edu.princeton.cs.algs4.WordNet noun?
+    // is the word a WordNet noun?
     public boolean isNoun(String word) {
         return nouns.contains(word);
     }
 
     private void createGraphFromTxt(String fileName) {
         wordNetGraph = new Digraph(synsetsObj.size());
-        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            stream.forEach((line) -> {
-                String[] values = line.split(",");
-                int from = Integer.parseInt(values[0]);
-                for (int i = 0; i < values.length; i++) {
-                    int vertexId = Integer.parseInt(values[i]);
-                    if (vertexId != from) {
-                        wordNetGraph.addEdge(from, vertexId);
-                    }
+        In file = new In(fileName);
+        while (file.hasNextLine()) {
+            String[] values = file.readLine().split(",");
+            int from = Integer.parseInt(values[0]);
+            for (int i = 0; i < values.length; i++) {
+                int vertexId = Integer.parseInt(values[i]);
+                if (vertexId != from) {
+                    wordNetGraph.addEdge(from, vertexId);
                 }
             }
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -111,9 +105,13 @@ public class WordNet {
         Synset synset = synsetsObj.get(commonAncestorId);
         List<String> synsetNouns = synset.getNouns();
 
-        String nouns = synsetNouns.stream()
-                .collect(Collectors.joining(","));
-        return nouns;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String currentSynset : synsetNouns) {
+            stringBuilder.append(currentSynset).append(",");
+        }
+
+        String joinedString = stringBuilder.toString().toString();
+        return joinedString.substring(0, joinedString.length() - 1);
     }
 
     // do unit testing of this class
