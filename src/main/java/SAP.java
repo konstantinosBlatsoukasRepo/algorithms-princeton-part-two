@@ -13,7 +13,7 @@ import java.util.stream.StreamSupport;
 public class SAP {
 
     private Digraph dGraph;
-    private static final int ROOT_INDEX = 0;
+    private static final int ROOT_INDEX = 38003;
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G) {
         dGraph = new Digraph(G);

@@ -119,7 +119,7 @@ public class WordNet {
     // do unit testing of this class
     public static void main(String[] args) {
         WordNet wordNet = new WordNet("synsets.txt", "hypernyms.txt");
-        int distance = wordNet.distance("worm", "bird");
+        int distance = wordNet.distance("Black_Plague", "black_marlin");
         System.out.println("distance = " + distance);
     }
 
