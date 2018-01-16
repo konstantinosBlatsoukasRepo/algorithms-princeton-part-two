@@ -12,7 +12,6 @@ import java.util.Set;
 public class SAP {
 
     private Digraph dGraph;
-    private static final int ROOT_INDEX = 38003;
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G) {
         dGraph = new Digraph(G);
@@ -24,10 +23,8 @@ public class SAP {
         if (minLengthVertex == -1) {
             return minLengthVertex;
         }
-
         BreadthFirstDirectedPaths wBfs = new BreadthFirstDirectedPaths(dGraph, w);
         BreadthFirstDirectedPaths vBfs = new BreadthFirstDirectedPaths(dGraph, v);
-
         return wBfs.distTo(minLengthVertex) + vBfs.distTo(minLengthVertex);
     }
 
@@ -40,63 +37,35 @@ public class SAP {
     }
 
     private int calculateAncestor(BreadthFirstDirectedPaths vBfs, BreadthFirstDirectedPaths wBfs) {
-        Iterable<Integer> vPathToRoot = calculatePathToRoot(vBfs);
-        if (vPathToRoot == null || !vPathToRoot.iterator().hasNext()) {
-            return -1;
-        }
-
-        Iterable<Integer> wPathToRoot = calculatePathToRoot(wBfs);
-        if (wPathToRoot == null || !wPathToRoot.iterator().hasNext()) {
-            return -1;
-        }
-
-        List<Integer> commonAncestors = getCommonAncestors(vPathToRoot, wPathToRoot);
+        List<Integer> commonAncestors = getCommonAncestors(vBfs, wBfs);
         if (commonAncestors == null || commonAncestors.isEmpty()) {
             return -1;
         }
-
-        int electedAncestor = getElectedAncestor(vBfs, commonAncestors);
+        int electedAncestor = getElectedAncestor(vBfs, wBfs, commonAncestors);
         return electedAncestor;
     }
 
-    private Iterable<Integer> calculatePathToRoot(BreadthFirstDirectedPaths bfs) {
-        Iterable<Integer> pathToRoot = null;
-        if (bfs.hasPathTo(ROOT_INDEX)) {
-            pathToRoot = bfs.pathTo(ROOT_INDEX);
-        }
-        return pathToRoot;
-    }
-
-    private List<Integer> getCommonAncestors(Iterable<Integer> vPathToRoot, Iterable<Integer> wPathToRoot) {
-        List<Integer> vConvertedPath = new ArrayList<>();
-        for (Integer synsetIdV : vPathToRoot) {
-            vConvertedPath.add(synsetIdV);
-        }
-
-        List<Integer> wConvertedPath = new ArrayList<>();
-        for (Integer synsetIdW : wPathToRoot) {
-            wConvertedPath.add(synsetIdW);
-        }
-
-        Set<Integer> commonAncestors = new HashSet<>();
-        for (Integer synsetIdW : wPathToRoot) {
-            for (Integer synsetIdV : vPathToRoot) {
-                if (synsetIdW.equals(synsetIdV)) {
-                    commonAncestors.add(synsetIdV);
-                }
+    private List<Integer> getCommonAncestors(BreadthFirstDirectedPaths vBfs, BreadthFirstDirectedPaths wBfs) {
+        int totalVertices = dGraph.V();
+        List<Integer> commons = new ArrayList<>();
+        for (int currentVertex = 0; currentVertex < totalVertices - 1; currentVertex++) {
+            if (vBfs.hasPathTo(currentVertex) && wBfs.hasPathTo(currentVertex)) {
+                commons.add(currentVertex);
             }
         }
-
-        List<Integer> commons = new ArrayList<>();
-        commons.addAll(commonAncestors);
         return commons;
     }
 
-    private int getElectedAncestor(BreadthFirstDirectedPaths vBfs, List<Integer> commonAncestors) {
+    private int getElectedAncestor(BreadthFirstDirectedPaths vBfs, BreadthFirstDirectedPaths wBfs, List<Integer> commonAncestors) {
         int minimumCost = Integer.MAX_VALUE;
         int electedAncestor = 0;
         for (Integer commonAncestor : commonAncestors) {
-            int distanceToCommon = vBfs.distTo(commonAncestor);
+            int distanceToCommonV = vBfs.distTo(commonAncestor);
+            int distanceToCommonW = wBfs.distTo(commonAncestor);
+            int distanceToCommon = distanceToCommonV;
+            if (distanceToCommonW <= distanceToCommonV) {
+                distanceToCommon = distanceToCommonW;
+            }
             if(distanceToCommon < minimumCost) {
                 minimumCost = distanceToCommon;
                 electedAncestor = commonAncestor;
@@ -110,10 +79,8 @@ public class SAP {
         if (minLengthVertex == -1) {
             return minLengthVertex;
         }
-
         BreadthFirstDirectedPaths wBfs = new BreadthFirstDirectedPaths(dGraph, w);
         BreadthFirstDirectedPaths vBfs = new BreadthFirstDirectedPaths(dGraph, v);
-
         return wBfs.distTo(minLengthVertex) + vBfs.distTo(minLengthVertex);
     }
 
