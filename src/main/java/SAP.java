@@ -1,10 +1,9 @@
 import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.In;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by kon on 10/1/2018.
@@ -12,27 +11,33 @@ import java.util.Set;
 public class SAP {
 
     private Digraph dGraph;
-    // constructor takes a digraph (not necessarily a DAG)
+    private Digraph biDirectional;
+
     public SAP(Digraph G) {
         dGraph = new Digraph(G);
+        biDirectional = createBiDirectionalGraph(dGraph);
     }
 
-    // length of shortest ancestral patjh between v and w; -1 if no such path
     public int length(int v, int w) {
         int minLengthVertex = ancestor(v, w);
         if (minLengthVertex == -1) {
             return minLengthVertex;
+        } else if (v == w) {
+            return 0;
         }
-        BreadthFirstDirectedPaths wBfs = new BreadthFirstDirectedPaths(dGraph, w);
-        BreadthFirstDirectedPaths vBfs = new BreadthFirstDirectedPaths(dGraph, v);
+        BreadthFirstDirectedPaths wBfs = new BreadthFirstDirectedPaths(biDirectional, w);
+        BreadthFirstDirectedPaths vBfs = new BreadthFirstDirectedPaths(biDirectional, v);
+        //TODO: calculate common paths
         return wBfs.distTo(minLengthVertex) + vBfs.distTo(minLengthVertex);
     }
 
-    // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
     public int ancestor(int v, int w) {
-        BreadthFirstDirectedPaths vBfs = new BreadthFirstDirectedPaths(dGraph, v);
-        BreadthFirstDirectedPaths wBfs = new BreadthFirstDirectedPaths(dGraph, w);
-        int electedAncestor = calculateAncestor(vBfs, wBfs);
+        int electedAncestor = v;
+        if (v != w) {
+            BreadthFirstDirectedPaths vBfs = new BreadthFirstDirectedPaths(dGraph, v);
+            BreadthFirstDirectedPaths wBfs = new BreadthFirstDirectedPaths(dGraph, w);
+            electedAncestor = calculateAncestor(vBfs, wBfs);
+        }
         return electedAncestor;
     }
 
@@ -62,7 +67,7 @@ public class SAP {
         for (Integer commonAncestor : commonAncestors) {
             int distanceToCommonV = vBfs.distTo(commonAncestor);
             int distanceToCommonW = wBfs.distTo(commonAncestor);
-            int distanceToCommon = distanceToCommonV;
+            int distanceToCommon = distanceToCommonV + distanceToCommonW;
             if (distanceToCommonW <= distanceToCommonV) {
                 distanceToCommon = distanceToCommonW;
             }
@@ -73,18 +78,38 @@ public class SAP {
         }
         return electedAncestor;
     }
-    // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
+
+    private int calculateTotalCommonPaths(BreadthFirstDirectedPaths vBfs, BreadthFirstDirectedPaths wBfs, int commonAncestor) {
+        int totalCommonPaths = 0;
+        Iterable<Integer> vPathToAncestor = vBfs.pathTo(commonAncestor);
+        Iterable<Integer> wPathToAncestor = wBfs.pathTo(commonAncestor);
+
+        int vSize = getIterableSize(vPathToAncestor);
+        int wSize = getIterableSize(wPathToAncestor);
+
+
+
+        return totalCommonPaths * 2;
+    }
+
+    private int getIterableSize(Iterable<Integer> pathToAncestor) {
+        int totalVertices = 0;
+        for (Integer currentVertex : pathToAncestor) {
+            totalVertices++;
+        }
+        return totalVertices;
+    }
+
     public int length(Iterable<Integer> v, Iterable<Integer> w) {
         int minLengthVertex = ancestor(v, w);
         if (minLengthVertex == -1) {
             return minLengthVertex;
         }
-        BreadthFirstDirectedPaths wBfs = new BreadthFirstDirectedPaths(dGraph, w);
-        BreadthFirstDirectedPaths vBfs = new BreadthFirstDirectedPaths(dGraph, v);
+        BreadthFirstDirectedPaths wBfs = new BreadthFirstDirectedPaths(biDirectional, w);
+        BreadthFirstDirectedPaths vBfs = new BreadthFirstDirectedPaths(biDirectional, v);
         return wBfs.distTo(minLengthVertex) + vBfs.distTo(minLengthVertex);
     }
 
-    // a common ancestor that participates in shortest ancestral path; -1 if no such path
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
         BreadthFirstDirectedPaths vBfs = new BreadthFirstDirectedPaths(dGraph, v);
         BreadthFirstDirectedPaths wBfs = new BreadthFirstDirectedPaths(dGraph, w);
@@ -92,7 +117,28 @@ public class SAP {
         return electedAncestor;
     }
 
-    public static void main(String[] args) {
+    private Digraph createBiDirectionalGraph(Digraph digraph) {
+        Digraph resultedGraph = new Digraph(digraph);
+        Digraph reversedGraph = digraph.reverse();
+        for (int currentVertex = 0; currentVertex < resultedGraph.V() - 1; currentVertex++) {
+            Iterable<Integer> reversedVertices = reversedGraph.adj(currentVertex);
+            for (Integer adjacentVertex : reversedVertices) {
+                resultedGraph.addEdge(currentVertex, adjacentVertex);
+            }
+        }
+        return resultedGraph;
+    }
 
+    public static void main(String[] args) {
+        In in = new In("digraph2.txt");
+        Digraph digraph = new Digraph(in);
+        SAP sap = new SAP(digraph);
+
+        BreadthFirstDirectedPaths wBfs = new BreadthFirstDirectedPaths(digraph, 3);
+
+        Iterable<Integer> path = wBfs.pathTo(0);
+        for (Integer vertexId : path) {
+            System.out.println(vertexId);
+        }
     }
 }

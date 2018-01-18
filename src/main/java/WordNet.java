@@ -108,7 +108,7 @@ public class WordNet {
 
         StringBuilder stringBuilder = new StringBuilder();
         for (String currentSynset : synsetNouns) {
-            stringBuilder.append(currentSynset).append(",");
+            stringBuilder.append(currentSynset).append(" ");
         }
 
         String joinedString = stringBuilder.toString().toString();
