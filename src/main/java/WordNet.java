@@ -27,6 +27,24 @@ public class WordNet {
         createGraphFromTxt(hypernyms);
         nouns = extractWordNetNouns();
         sap = new SAP(wordNetGraph);
+
+        DirectedCycle cycle = new DirectedCycle(wordNetGraph);
+        if (cycle.hasCycle() || !isRootedDAG(wordNetGraph)) {
+            throw new IllegalArgumentException("The input does not correspond to a rooted DAG!");
+        }
+    }
+
+    private boolean isRootedDAG(Digraph g) {
+        int roots = 0;
+        for (int i = 0; i < g.V(); i++) {
+            if (!g.adj(i).iterator().hasNext()) {
+                roots++;
+                if (roots > 1) {
+                    return false;
+                }
+            }
+        }
+        return roots == 1;
     }
 
     private void readSynsets(String synsets) {
