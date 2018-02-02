@@ -1,20 +1,37 @@
 import edu.princeton.cs.algs4.Picture;
+
+import java.util.Arrays;
+
 /**
  * Created by kon on 27/1/2018.
  */
 public class SeamCarver {
 
-    private Picture picture;
+    private final Picture picture;
     private static final double BORDER_ENERGY = 1000.0;
-    private double[][] energy;
-    private int width;
-    private int height;
+    final double[][] energy;
+    private final int width;
+    private final int height;
 
     public SeamCarver(Picture picture) {
         this.picture = picture;
         width = picture.width() - 1;
         height = picture.height() - 1;
-        energy = new double[width][height];
+        energy = new double[picture.height()][picture.width()];
+        calculatePictureEnergies();
+    }
+
+    private void calculatePictureEnergies() {
+        for (int row = 0; row < picture.height(); row++) {
+            for (int column = 0; column < picture.width(); column++) {
+//                if (isAPointBorder(row, column)) {
+//                    energy[row][column] = BORDER_ENERGY;
+//                } else {
+//                    energy[row][column] = energy(row, column);
+//                }
+                System.out.println("(" + row + " ," + column+ ")");
+            }
+        }
     }
 
     public Picture picture() {
@@ -41,7 +58,7 @@ public class SeamCarver {
     }
 
     private boolean isAPointBorder(int x, int y) {
-        if ( x == 0 || y == 0 || y == height ||x == width) {
+        if ( x == 0 || y == 0 || y == width ||x == height) {
             return true;
         }
         return false;
@@ -49,8 +66,8 @@ public class SeamCarver {
 
     private double calculateGradientSquare(int x, int y) {
         double squaredGradientX = calculateGradientSquare(x, y, true);
-        double squaredGgradientY = calculateGradientSquare(x, y, false);
-        double gradient = Math.sqrt(squaredGradientX + squaredGgradientY);
+        double squaredGradientY = calculateGradientSquare(x, y, false);
+        double gradient = Math.sqrt(squaredGradientX + squaredGradientY);
         return gradient;
     }
 
@@ -105,12 +122,17 @@ public class SeamCarver {
     }
 
     public static void main(String[] args) {
-        Picture picture = new Picture("3x4.png");
+        Picture picture = new Picture("6x5.png");
         SeamCarver seamCarver = new SeamCarver(picture);
 
-        System.out.println(seamCarver.energy(1,1));
-        System.out.println(seamCarver.isAPointBorder(1,3));
-        System.out.println(seamCarver.energy(1,2));
+        System.out.println(seamCarver.energy(1 ,1));
+        System.out.println(seamCarver.energy(1 ,2));
+        System.out.println(seamCarver.energy(1 ,3));
+        System.out.println(seamCarver.energy(1 ,4));
+
+//        seamCarver.energy(1 ,4);
+//        System.out.println(seamCarver.energy(2 ,4));
+
     }
 }
 
