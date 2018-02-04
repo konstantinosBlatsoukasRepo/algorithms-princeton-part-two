@@ -24,12 +24,8 @@ public class SeamCarver {
     private void calculatePictureEnergies() {
         for (int row = 0; row < picture.height(); row++) {
             for (int column = 0; column < picture.width(); column++) {
-//                if (isAPointBorder(row, column)) {
-//                    energy[row][column] = BORDER_ENERGY;
-//                } else {
-//                    energy[row][column] = energy(row, column);
-//                }
-                System.out.println("(" + row + " ," + column+ ")");
+                energy(column, row);
+                //System.out.println("(" + column + " ," + row + ")" + isAPointBorder(column, row));
             }
         }
     }
@@ -49,16 +45,16 @@ public class SeamCarver {
     public double energy(int x, int y) {
         double pointEnergy = BORDER_ENERGY;
         if (isAPointBorder(x, y)) {
-            energy[x][y] = BORDER_ENERGY;
-        } else if (energy[x][y] == 0.0) {
-            energy[x][y] = calculateGradientSquare(x, y);
-            pointEnergy = energy[x][y];
+            energy[y][x] = BORDER_ENERGY;
+        } else if (energy[y][x] == 0.0) {
+            energy[y][x] = calculateGradientSquare(x, y);
+            pointEnergy = energy[y][x];
         }
         return pointEnergy;
     }
 
     private boolean isAPointBorder(int x, int y) {
-        if ( x == 0 || y == 0 || y == width ||x == height) {
+        if (x == 0 || y == 0 || y == height || x == width) {
             return true;
         }
         return false;
@@ -113,26 +109,19 @@ public class SeamCarver {
         return null;
     }
 
-    public void removeHorizontalSeam(int[] seam) {
-
+    private int[] findBestPathForm(int x, int y) {
+        return null;
     }
 
-    public void removeVerticalSeam(int[] seam) {
+    public void removeHorizontalSeam(int[] seam) {}
 
-    }
+    public void removeVerticalSeam(int[] seam) {}
 
     public static void main(String[] args) {
         Picture picture = new Picture("6x5.png");
         SeamCarver seamCarver = new SeamCarver(picture);
-
-        System.out.println(seamCarver.energy(1 ,1));
-        System.out.println(seamCarver.energy(1 ,2));
-        System.out.println(seamCarver.energy(1 ,3));
-        System.out.println(seamCarver.energy(1 ,4));
-
-//        seamCarver.energy(1 ,4);
-//        System.out.println(seamCarver.energy(2 ,4));
-
+        String energyTable = Arrays.deepToString(seamCarver.energy);
+        System.out.println("energyTable = " + energyTable);
     }
 }
 
