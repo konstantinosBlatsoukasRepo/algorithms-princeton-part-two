@@ -1,6 +1,6 @@
 import edu.princeton.cs.algs4.Picture;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Created by kon on 27/1/2018.
@@ -25,9 +25,11 @@ public class SeamCarver {
         for (int row = 0; row < picture.height(); row++) {
             for (int column = 0; column < picture.width(); column++) {
                 energy(column, row);
-                //System.out.println("(" + column + " ," + row + ")" + isAPointBorder(column, row));
             }
         }
+
+        //TODO: remove after testing
+        topologicalSort(new Point(0, 2));
     }
 
     public Picture picture() {
@@ -104,9 +106,79 @@ public class SeamCarver {
     public int[] findHorizontalSeam() {
         return null;
     }
-
+    
     public int[] findVerticalSeam() {
+
+
+        for (int row = 0; row < picture.height(); row++) {
+        }
         return null;
+    }
+
+    private List<Point> topologicalSort(Point point) {
+        List<Point> topologicalSortedPoints = new ArrayList<>();
+        topologicalSortedPoints.add(point);
+
+        List<Point> currentAdjacents = findAdjacents(topologicalSortedPoints);
+        addToTopologicalSortedList(currentAdjacents, topologicalSortedPoints);
+
+        while (!currentAdjacents.isEmpty()) {
+            currentAdjacents = findAdjacents(currentAdjacents);
+            addToTopologicalSortedList(currentAdjacents, topologicalSortedPoints);
+        }
+
+        return topologicalSortedPoints;
+    }
+
+    private List<Point> findAdjacents(List<Point> points) {
+        List<Point> adjacentPoints = new ArrayList<>();
+        List<String> duplicatePoints = new ArrayList<>();
+        for (Point point : points) {
+            int x = point.getX();
+            int y = point.getY();
+
+            if (!isOutOfRange(x, y)) {
+                duplicatePoints.add(x + "," +y);
+                int candidateX = x + 1;
+
+                int firstCandidateY = y - 1;
+                if (!duplicatePoints.contains(candidateX + "," + firstCandidateY) && !isOutOfRange(candidateX, firstCandidateY)) {
+                    Point firstCandidatePoint = new Point(candidateX, firstCandidateY);
+                    adjacentPoints.add(firstCandidatePoint);
+                    duplicatePoints.add(candidateX + "," + firstCandidateY);
+                }
+
+                int secondCandidateY = y;
+                if (!duplicatePoints.contains(candidateX + "," + secondCandidateY) && !isOutOfRange(candidateX, secondCandidateY)) {
+                    Point secondCandidatePoint = new Point(candidateX, secondCandidateY);
+                    adjacentPoints.add(secondCandidatePoint);
+                    duplicatePoints.add(candidateX + "," + secondCandidateY);
+                }
+
+                int thirdCandidateY = y + 1;
+                if (!duplicatePoints.contains(candidateX + "," + thirdCandidateY) && !isOutOfRange(candidateX, thirdCandidateY)) {
+                    Point thirdCandidatePoint = new Point(candidateX, thirdCandidateY);
+                    adjacentPoints.add(thirdCandidatePoint);
+                    duplicatePoints.add(candidateX + "," + thirdCandidateY);
+                }
+            }
+        }
+        return adjacentPoints;
+    }
+
+    private boolean isOutOfRange(int x, int y) {
+        boolean isOutOfRange = false;
+        if (y < 0) { isOutOfRange = true; }
+        if (x > height) { isOutOfRange = true; }
+        if (y > width) { isOutOfRange = true; }
+        return isOutOfRange;
+    }
+
+    private void addToTopologicalSortedList(List<Point> currentAdjacents, List<Point> topologicalSortedPoints) {
+        for (Point currentAdjacent : currentAdjacents) {
+            topologicalSortedPoints.add(currentAdjacent);
+        }
+
     }
 
     private int[] findBestPathForm(int x, int y) {
@@ -121,7 +193,30 @@ public class SeamCarver {
         Picture picture = new Picture("6x5.png");
         SeamCarver seamCarver = new SeamCarver(picture);
         String energyTable = Arrays.deepToString(seamCarver.energy);
+
+
+        seamCarver.findVerticalSeam();
+
         System.out.println("energyTable = " + energyTable);
+    }
+
+    private final class Point {
+        private final int x;
+        private final int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
     }
 }
 
