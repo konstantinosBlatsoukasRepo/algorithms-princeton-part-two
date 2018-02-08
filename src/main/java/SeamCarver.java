@@ -9,7 +9,7 @@ public class SeamCarver {
 
     private final Picture picture;
     private static final double BORDER_ENERGY = 1000.0;
-    final double[][] energy;
+    private final double[][] energy;
     private final int width;
     private final int height;
 
@@ -27,9 +27,6 @@ public class SeamCarver {
                 energy(column, row);
             }
         }
-
-        //TODO: remove after testing
-        topologicalSort(new Point(0, 2));
     }
 
     public Picture picture() {
@@ -104,15 +101,87 @@ public class SeamCarver {
     }
 
     public int[] findHorizontalSeam() {
+
         return null;
     }
     
     public int[] findVerticalSeam() {
-
-
-        for (int row = 0; row < picture.height(); row++) {
+        for (int column = 0; column < picture.width(); column++) {
+            Point currenetAnchorPoint = new Point(0, column);
+            List<Point> topologicalSortedPoints = topologicalSort(currenetAnchorPoint);
+            bestPathForAGivenTopologicalSort(topologicalSortedPoints);
         }
         return null;
+    }
+
+    private int[] bestPathForAGivenTopologicalSort(List<Point> topologicalSort) {
+        List<String> convertedPoints = convertPointsToStrings(topologicalSort);
+        Map<String, Double> cummulativeEnergies = new HashMap<>();
+        Map<String, String> distTo = new HashMap<>();
+        for (Point point : topologicalSort) {
+            List<Point> upperAdjacents = getUpperAdjacents(point);
+            if (upperAdjacents.isEmpty()) {
+                cummulativeEnergies.put(point.toString(), BORDER_ENERGY);
+                distTo.put(point.toString(), point.toString());
+            } else {
+                double minEnergy = Double.MAX_VALUE;
+                double currentPointEnergy = energy[point.x][point.y];
+                if (point.x == 2 && point.y == 1) {
+                    System.out.println();
+                }
+                for (Point adjacentPoint : upperAdjacents) {
+                    if (convertedPoints.contains(adjacentPoint.toString())) {
+                        int adjX = adjacentPoint.x;
+                        int adjY = adjacentPoint.y;
+                        double adjacentEnergy = energy[adjX][adjY];
+                        if (cummulativeEnergies.get(adjacentPoint.toString()) != null) {
+                            adjacentEnergy = cummulativeEnergies.get(adjacentPoint.toString());
+                        }
+                        if (adjacentEnergy < minEnergy) {
+                            cummulativeEnergies.put(point.toString(), adjacentEnergy + currentPointEnergy);
+                            distTo.put(point.toString(), adjacentPoint.toString());
+                            minEnergy = adjacentEnergy;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        System.out.println();
+        return null;
+    }
+
+    private List<Point> getUpperAdjacents(Point point) {
+        List<Point> upperAdjacents = new ArrayList<>();
+
+        int firstCandidateX = point.x - 1;
+        int firstCandidateY = point.y;
+        if (!isOutOfRange(firstCandidateX, firstCandidateY) && !(firstCandidateX < 0) && !(firstCandidateY < 0)) {
+            upperAdjacents.add(new Point(firstCandidateX, firstCandidateY));
+        }
+
+        int secondCandidateX = point.x - 1;
+        int secondCandidateY = point.y - 1;
+        if (!isOutOfRange(secondCandidateX, secondCandidateY) && !(secondCandidateX < 0) && !(secondCandidateY < 0)) {
+            upperAdjacents.add(new Point(secondCandidateX, secondCandidateY));
+        }
+
+        int thirdCandidateX = point.x - 1;
+        int thirdCandidateY = point.y + 1;
+        if (!isOutOfRange(thirdCandidateX, thirdCandidateY) && !(thirdCandidateX < 0) && !(thirdCandidateY < 0)) {
+            upperAdjacents.add(new Point(thirdCandidateX, thirdCandidateY));
+        }
+
+        return upperAdjacents;
+    }
+
+    private List<String> convertPointsToStrings(List<Point> topologicalSort) {
+        List<String> convertedPoints = new ArrayList<>();
+        for (Point point : topologicalSort) {
+            convertedPoints.add(point.toString());
+        }
+        return convertedPoints;
     }
 
     private List<Point> topologicalSort(Point point) {
@@ -192,11 +261,11 @@ public class SeamCarver {
     public static void main(String[] args) {
         Picture picture = new Picture("6x5.png");
         SeamCarver seamCarver = new SeamCarver(picture);
+
+
         String energyTable = Arrays.deepToString(seamCarver.energy);
 
-
         seamCarver.findVerticalSeam();
-
         System.out.println("energyTable = " + energyTable);
     }
 
@@ -212,11 +281,14 @@ public class SeamCarver {
         public int getX() {
             return x;
         }
-
         public int getY() {
             return y;
         }
 
+        @Override
+        public String toString() {
+          return "(" + x + ", " + y + ")";
+        }
     }
 }
 
