@@ -106,15 +106,16 @@ public class SeamCarver {
     }
     
     public int[] findVerticalSeam() {
+
         for (int column = 0; column < picture.width(); column++) {
             Point currenetAnchorPoint = new Point(0, column);
             List<Point> topologicalSortedPoints = topologicalSort(currenetAnchorPoint);
-            bestPathForAGivenTopologicalSort(topologicalSortedPoints);
+            bestPathForAGivenTopologicalSort(topologicalSortedPoints, currenetAnchorPoint);
         }
         return null;
     }
 
-    private int[] bestPathForAGivenTopologicalSort(List<Point> topologicalSort) {
+    private int[] bestPathForAGivenTopologicalSort(List<Point> topologicalSort, Point currenetAnchorPoint) {
         List<String> convertedPoints = convertPointsToStrings(topologicalSort);
         Map<String, Double> cummulativeEnergies = new HashMap<>();
         Map<String, String> distTo = new HashMap<>();
@@ -124,31 +125,15 @@ public class SeamCarver {
                 cummulativeEnergies.put(point.toString(), BORDER_ENERGY);
                 distTo.put(point.toString(), point.toString());
             } else {
-                double minEnergy = Double.MAX_VALUE;
-                double currentPointEnergy = energy[point.x][point.y];
-                if (point.x == 2 && point.y == 1) {
-                    System.out.println();
-                }
-                for (Point adjacentPoint : upperAdjacents) {
-                    if (convertedPoints.contains(adjacentPoint.toString())) {
-                        int adjX = adjacentPoint.x;
-                        int adjY = adjacentPoint.y;
-                        double adjacentEnergy = energy[adjX][adjY];
-                        if (cummulativeEnergies.get(adjacentPoint.toString()) != null) {
-                            adjacentEnergy = cummulativeEnergies.get(adjacentPoint.toString());
-                        }
-                        if (adjacentEnergy < minEnergy) {
-                            cummulativeEnergies.put(point.toString(), adjacentEnergy + currentPointEnergy);
-                            distTo.put(point.toString(), adjacentPoint.toString());
-                            minEnergy = adjacentEnergy;
-                        }
-                    }
-                }
-
+                calculateBestDistances(convertedPoints, cummulativeEnergies, distTo, point, upperAdjacents);
             }
         }
 
-        System.out.println();
+
+        String pointWithTheMinimumEnergy = getPointWithTheMinimumEnergy(cummulativeEnergies);
+        int[] constructedPath = constructPath(distTo, currenetAnchorPoint, pointWithTheMinimumEnergy);
+        System.out.println(Arrays.toString(constructedPath));
+
         return null;
     }
 
@@ -233,6 +218,70 @@ public class SeamCarver {
             }
         }
         return adjacentPoints;
+    }
+
+    private String getPointWithTheMinimumEnergy(Map<String, Double> cummulativeEnergies) {
+        double minEnergy = Double.MAX_VALUE;
+        String minPoint = "";
+        for (Map.Entry<String, Double> entry : cummulativeEnergies.entrySet()) {
+            StringTokenizer stringTokenizer = new StringTokenizer(entry.getKey(),",");
+            String point = entry.getKey();
+            int extractedX = Integer.parseInt(stringTokenizer.nextToken().substring(1));
+            double currentEnergy = entry.getValue();
+            if (extractedX == height && currentEnergy < minEnergy) {
+                minEnergy = currentEnergy;
+                minPoint = point;
+            }
+        }
+        return minPoint;
+    }
+
+    private void calculateBestDistances(List<String> convertedPoints, Map<String, Double> cummulativeEnergies,
+                                        Map<String, String> distTo, Point point, List<Point> upperAdjacents) {
+        double minEnergy = Double.MAX_VALUE;
+        double currentPointEnergy = energy[point.x][point.y];
+        for (Point adjacentPoint : upperAdjacents) {
+            if (convertedPoints.contains(adjacentPoint.toString())) {
+                int adjX = adjacentPoint.x;
+                int adjY = adjacentPoint.y;
+                double adjacentEnergy = energy[adjX][adjY];
+                if (cummulativeEnergies.get(adjacentPoint.toString()) != null) {
+                    adjacentEnergy = cummulativeEnergies.get(adjacentPoint.toString());
+                }
+                if (adjacentEnergy < minEnergy) {
+                    cummulativeEnergies.put(point.toString(), adjacentEnergy + currentPointEnergy);
+                    distTo.put(point.toString(), adjacentPoint.toString());
+                    minEnergy = adjacentEnergy;
+                }
+            }
+        }
+    }
+
+    private int[] constructPath(Map<String, String> distTo, Point point, String pointWithTheMinimumEnergy) {
+        String anchorPoint = point.toString();
+        Stack<Integer> pathUnderConstruction = new Stack<>();
+
+        StringTokenizer intiStringTokenizer = new StringTokenizer(pointWithTheMinimumEnergy,",");
+        intiStringTokenizer.nextToken();
+        String initY = intiStringTokenizer.nextToken();
+        int initExtractedY = Integer.parseInt(initY.substring(1, initY.length() - 1));
+        pathUnderConstruction.push(initExtractedY);
+
+        while (!pointWithTheMinimumEnergy.equals(anchorPoint)) {
+            pointWithTheMinimumEnergy = distTo.get(pointWithTheMinimumEnergy);
+            StringTokenizer stringTokenizer = new StringTokenizer(pointWithTheMinimumEnergy,",");
+            stringTokenizer.nextToken();
+            String y = stringTokenizer.nextToken();
+            int extractedY = Integer.parseInt(y.substring(1, y.length() - 1));
+            pathUnderConstruction.push(extractedY);
+        }
+
+        int[] path = new int[pathUnderConstruction.size()];
+        for (int i = 0; i < path.length; i++) {
+            path[i] = pathUnderConstruction.pop();
+        }
+
+        return path;
     }
 
     private boolean isOutOfRange(int x, int y) {
