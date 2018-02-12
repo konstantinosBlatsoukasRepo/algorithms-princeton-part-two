@@ -1,343 +1,190 @@
 import edu.princeton.cs.algs4.Picture;
 
-import java.util.*;
+import java.awt.Color;
 
 /**
- * Created by kon on 27/1/2018.
+ * Created by yiyuanliu on 2017/2/2.
  */
 public class SeamCarver {
-
-    private final Picture picture;
-    private static final double BORDER_ENERGY = 1000.0;
-    private final double[][] energy;
-    private final int width;
-    private final int height;
+    private int[][] colors;
 
     public SeamCarver(Picture picture) {
-        this.picture = picture;
-        width = picture.width() - 1;
-        height = picture.height() - 1;
-        energy = new double[picture.height()][picture.width()];
-        calculatePictureEnergies();
-    }
-
-    private void calculatePictureEnergies() {
-        for (int row = 0; row < picture.height(); row++) {
-            for (int column = 0; column < picture.width(); column++) {
-                energy(column, row);
+        if (picture == null) throw new NullPointerException();
+        colors = new int[picture.width()][picture.height()];
+        for (int i = 0; i < width(); i++) {
+            for (int j = 0; j < height(); j++) {
+                colors[i][j] = picture.get(i, j).getRGB();
             }
         }
     }
 
     public Picture picture() {
+        Picture picture = new Picture(colors.length, colors[0].length);
+        for (int i = 0; i < colors.length; i++) {
+            for (int j = 0; j < colors[0].length; j++) {
+                Color color = new Color(this.colors[i][j]);
+                picture.set(i, j, color);
+            }
+        }
         return picture;
     }
 
     public int width() {
-        return picture.width();
+        return this.colors.length;
     }
 
     public int height() {
-        return picture.height();
+        return this.colors[0].length;
     }
 
     public double energy(int x, int y) {
-        double pointEnergy = BORDER_ENERGY;
-        if (isAPointBorder(x, y)) {
-            energy[y][x] = BORDER_ENERGY;
-        } else if (energy[y][x] == 0.0) {
-            energy[y][x] = calculateGradientSquare(x, y);
-            pointEnergy = energy[y][x];
+        if (x < 0 || x > this.width() - 1 || y < 0 || y > this.height() - 1) {
+            throw new IndexOutOfBoundsException();
         }
-        return pointEnergy;
-    }
-
-    private boolean isAPointBorder(int x, int y) {
-        if (x == 0 || y == 0 || y == height || x == width) {
-            return true;
-        }
-        return false;
-    }
-
-    private double calculateGradientSquare(int x, int y) {
-        double squaredGradientX = calculateGradientSquare(x, y, true);
-        double squaredGradientY = calculateGradientSquare(x, y, false);
-        double gradient = Math.sqrt(squaredGradientX + squaredGradientY);
-        return gradient;
-    }
-
-    private double calculateGradientSquare(int x, int y, boolean isXGradient) {
-        int firstPointX = x;
-        int firstPointY = y;
-        if (isXGradient) {
-            firstPointX = x + 1;
+        if (x == 0 || x == this.width() - 1 || y == 0 || y == this.height() - 1) {
+            return 1000.0;
         } else {
-            firstPointY = y + 1;
+            int deltaXRed = red(colors[x - 1][y]) -
+                    red(colors[x + 1][y]);
+            int deltaXGreen = green(colors[x - 1][y]) -
+                    green(colors[x + 1][y]);
+            int deltaXBlue = blue(colors[x - 1][y]) -
+                    blue(colors[x + 1][y]);
+
+            int deltaYRed = red(colors[x][y - 1]) - red(colors[x][y + 1]);
+            int deltaYGreen = green(colors[x][y - 1]) - green(colors[x][y + 1]);
+            int deltaYBlue = blue(colors[x][y - 1]) - blue(colors[x][y + 1]);
+
+            return Math.sqrt(Math.pow(deltaXRed, 2) + Math.pow(deltaXBlue, 2) + Math.pow(deltaXGreen, 2) + Math.pow(deltaYRed, 2) + Math.pow(deltaYBlue, 2) + Math.pow(deltaYGreen, 2));
         }
 
-        int rgbFirstPoint = picture.getRGB(firstPointX, firstPointY);
-        int rFirstPoint = (rgbFirstPoint >> 16) & 0xFF;
-        int gFirstPoint = (rgbFirstPoint >>  8) & 0xFF;
-        int bFirstPoint = (rgbFirstPoint >>  0) & 0xFF;
-
-        int secondPointX = x;
-        int secondPointY = y;
-        if (isXGradient) {
-            secondPointX = x - 1;
-        } else {
-            secondPointY = y - 1;
-        }
-        int rgbSecondPoint = picture.getRGB(secondPointX, secondPointY);
-        int rSecondPoint = (rgbSecondPoint >> 16) & 0xFF;
-        int gSecondPoint = (rgbSecondPoint >>  8) & 0xFF;
-        int bSecondPoint = (rgbSecondPoint >>  0) & 0xFF;
-
-        int redDiff = rFirstPoint - rSecondPoint;
-        int greenDiff = bFirstPoint - bSecondPoint;
-        int blueDiff = gFirstPoint - gSecondPoint;
-
-        double gradientSquared = Math.pow(redDiff, 2.0) + Math.pow(greenDiff, 2.0) + Math.pow(blueDiff, 2.0);
-        return gradientSquared;
     }
 
     public int[] findHorizontalSeam() {
-
-        return null;
+        this.colors = transpose(this.colors);
+        int[] seam = findVerticalSeam();
+        this.colors = transpose(this.colors);
+        return seam;
     }
-    
+
+
     public int[] findVerticalSeam() {
-
-        for (int column = 0; column < picture.width(); column++) {
-            Point currenetAnchorPoint = new Point(0, column);
-            List<Point> topologicalSortedPoints = topologicalSort(currenetAnchorPoint);
-            bestPathForAGivenTopologicalSort(topologicalSortedPoints, currenetAnchorPoint);
+        int n = this.width() * this.height();
+        int[] seam = new int[this.height()];
+        int[] nodeTo = new int[n];
+        double[] distTo = new double[n];
+        for (int i = 0; i < n; i++) {
+            if (i < width())
+                distTo[i] = 0;
+            else
+                distTo[i] = Double.POSITIVE_INFINITY;
         }
-        return null;
+        for (int i = 0; i < height(); i++) {
+            for (int j = 0; j < width(); j++) {
+                for (int k = -1; k <= 1; k++) {
+                    if (j + k < 0 || j + k > this.width() - 1 || i + 1 < 0 || i + 1 > this.height() - 1) {
+                        continue;
+                    } else {
+                        if (distTo[index(j + k, i + 1)] > distTo[index(j, i)] + energy(j, i)) {
+                            distTo[index(j + k, i + 1)] = distTo[index(j, i)] + energy(j, i);
+                            nodeTo[index(j + k, i + 1)] = index(j, i);
+                        }
+                    }
+                }
+            }
+        }
+
+        // find min dist in the last row
+        double min = Double.POSITIVE_INFINITY;
+        int index = -1;
+        for (int j = 0; j < width(); j++) {
+            if (distTo[j + width() * (height() - 1)] < min) {
+                index = j + width() * (height() - 1);
+                min = distTo[j + width() * (height() - 1)];
+            }
+        }
+
+        // find seam one by one
+        for (int j = 0; j < height(); j++) {
+            int y = height() - j - 1;
+            int x = index - y * width();
+            seam[height() - 1 - j] = x;
+            index = nodeTo[index];
+        }
+
+        return seam;
     }
 
-    private int[] bestPathForAGivenTopologicalSort(List<Point> topologicalSort, Point currenetAnchorPoint) {
-        List<String> convertedPoints = convertPointsToStrings(topologicalSort);
-        Map<String, Double> cummulativeEnergies = new HashMap<>();
-        Map<String, String> distTo = new HashMap<>();
-        for (Point point : topologicalSort) {
-            List<Point> upperAdjacents = getUpperAdjacents(point);
-            if (upperAdjacents.isEmpty()) {
-                cummulativeEnergies.put(point.toString(), BORDER_ENERGY);
-                distTo.put(point.toString(), point.toString());
+    public void removeHorizontalSeam(int[] seam) {
+        if (height() <= 1) throw new IllegalArgumentException();
+        if (seam == null) throw new NullPointerException();
+        if (seam.length != width()) throw new IllegalArgumentException();
+
+        for (int i = 0; i < seam.length; i++) {
+            if (seam[i] < 0 || seam[i] > height() - 1)
+                throw new IllegalArgumentException();
+            if (i < width() - 1 && Math.pow(seam[i] - seam[i + 1], 2) > 1)
+                throw new IllegalArgumentException();
+        }
+
+        int[][] updatedColor = new int[width()][height() - 1];
+        for (int i = 0; i < seam.length; i++) {
+            if (seam[i] == 0) {
+                System.arraycopy(this.colors[i], seam[i] + 1, updatedColor[i], 0, height() - 1);
+            } else if (seam[i] == height() - 1) {
+                System.arraycopy(this.colors[i], 0, updatedColor[i], 0, height() - 1);
             } else {
-                calculateBestDistances(convertedPoints, cummulativeEnergies, distTo, point, upperAdjacents);
+                System.arraycopy(this.colors[i], 0, updatedColor[i], 0, seam[i]);
+                System.arraycopy(this.colors[i], seam[i] + 1, updatedColor[i], seam[i], height() - seam[i] - 1);
+            }
+
+        }
+        this.colors = updatedColor;
+    }
+
+    public void removeVerticalSeam(int[] seam) {
+        this.colors = transpose(this.colors);
+        removeHorizontalSeam(seam);
+        this.colors = transpose(this.colors);
+    }
+
+
+    private int red(int rgb) {
+        return (rgb >> 16) & 0xFF;
+    }
+
+    private int green(int rgb) {
+        return (rgb >> 8) & 0xFF;
+    }
+
+    private int blue(int rgb) {
+        return (rgb >> 0) & 0xFF;
+    }
+
+    private int index(int x, int y) {
+        return width() * y + x;
+    }
+
+    private int[][] transpose(int[][] origin) {
+        if (origin == null) throw new NullPointerException();
+        if (origin.length < 1) throw new IllegalArgumentException();
+        int[][] result = new int[origin[0].length][origin.length];
+        for (int i = 0; i < origin[0].length; i++) {
+            for (int j = 0; j < origin.length; j++) {
+                result[i][j] = origin[j][i];
             }
         }
-
-
-        String pointWithTheMinimumEnergy = getPointWithTheMinimumEnergy(cummulativeEnergies);
-        int[] constructedPath = constructPath(distTo, currenetAnchorPoint, pointWithTheMinimumEnergy);
-        System.out.println(Arrays.toString(constructedPath));
-
-        return null;
+        return result;
     }
 
-    private List<Point> getUpperAdjacents(Point point) {
-        List<Point> upperAdjacents = new ArrayList<>();
+//    public static void main(String[] args) {
+//        String path = "/Users/yiyuanliu/IdeaProjects/Seam Carving/seamCarving/10x10.png";
+//        Picture picture = new Picture(path);
+//        StdOut.println("row:" + picture.height() + " column:" + picture.width());
+//        SeamCarver sc = new SeamCarver(picture);
+//        int[] verticalSeam = sc.findVerticalSeam();
+//        for (int x : verticalSeam)
+//            StdOut.print(x + " ");
+//    }
 
-        int firstCandidateX = point.x - 1;
-        int firstCandidateY = point.y;
-        if (!isOutOfRange(firstCandidateX, firstCandidateY) && !(firstCandidateX < 0) && !(firstCandidateY < 0)) {
-            upperAdjacents.add(new Point(firstCandidateX, firstCandidateY));
-        }
-
-        int secondCandidateX = point.x - 1;
-        int secondCandidateY = point.y - 1;
-        if (!isOutOfRange(secondCandidateX, secondCandidateY) && !(secondCandidateX < 0) && !(secondCandidateY < 0)) {
-            upperAdjacents.add(new Point(secondCandidateX, secondCandidateY));
-        }
-
-        int thirdCandidateX = point.x - 1;
-        int thirdCandidateY = point.y + 1;
-        if (!isOutOfRange(thirdCandidateX, thirdCandidateY) && !(thirdCandidateX < 0) && !(thirdCandidateY < 0)) {
-            upperAdjacents.add(new Point(thirdCandidateX, thirdCandidateY));
-        }
-
-        return upperAdjacents;
-    }
-
-    private List<String> convertPointsToStrings(List<Point> topologicalSort) {
-        List<String> convertedPoints = new ArrayList<>();
-        for (Point point : topologicalSort) {
-            convertedPoints.add(point.toString());
-        }
-        return convertedPoints;
-    }
-
-    private List<Point> topologicalSort(Point point) {
-        List<Point> topologicalSortedPoints = new ArrayList<>();
-        topologicalSortedPoints.add(point);
-
-        List<Point> currentAdjacents = findAdjacents(topologicalSortedPoints);
-        addToTopologicalSortedList(currentAdjacents, topologicalSortedPoints);
-
-        while (!currentAdjacents.isEmpty()) {
-            currentAdjacents = findAdjacents(currentAdjacents);
-            addToTopologicalSortedList(currentAdjacents, topologicalSortedPoints);
-        }
-
-        return topologicalSortedPoints;
-    }
-
-    private List<Point> findAdjacents(List<Point> points) {
-        List<Point> adjacentPoints = new ArrayList<>();
-        List<String> duplicatePoints = new ArrayList<>();
-        for (Point point : points) {
-            int x = point.getX();
-            int y = point.getY();
-
-            if (!isOutOfRange(x, y)) {
-                duplicatePoints.add(x + "," +y);
-                int candidateX = x + 1;
-
-                int firstCandidateY = y - 1;
-                if (!duplicatePoints.contains(candidateX + "," + firstCandidateY) && !isOutOfRange(candidateX, firstCandidateY)) {
-                    Point firstCandidatePoint = new Point(candidateX, firstCandidateY);
-                    adjacentPoints.add(firstCandidatePoint);
-                    duplicatePoints.add(candidateX + "," + firstCandidateY);
-                }
-
-                int secondCandidateY = y;
-                if (!duplicatePoints.contains(candidateX + "," + secondCandidateY) && !isOutOfRange(candidateX, secondCandidateY)) {
-                    Point secondCandidatePoint = new Point(candidateX, secondCandidateY);
-                    adjacentPoints.add(secondCandidatePoint);
-                    duplicatePoints.add(candidateX + "," + secondCandidateY);
-                }
-
-                int thirdCandidateY = y + 1;
-                if (!duplicatePoints.contains(candidateX + "," + thirdCandidateY) && !isOutOfRange(candidateX, thirdCandidateY)) {
-                    Point thirdCandidatePoint = new Point(candidateX, thirdCandidateY);
-                    adjacentPoints.add(thirdCandidatePoint);
-                    duplicatePoints.add(candidateX + "," + thirdCandidateY);
-                }
-            }
-        }
-        return adjacentPoints;
-    }
-
-    private String getPointWithTheMinimumEnergy(Map<String, Double> cummulativeEnergies) {
-        double minEnergy = Double.MAX_VALUE;
-        String minPoint = "";
-        for (Map.Entry<String, Double> entry : cummulativeEnergies.entrySet()) {
-            StringTokenizer stringTokenizer = new StringTokenizer(entry.getKey(),",");
-            String point = entry.getKey();
-            int extractedX = Integer.parseInt(stringTokenizer.nextToken().substring(1));
-            double currentEnergy = entry.getValue();
-            if (extractedX == height && currentEnergy < minEnergy) {
-                minEnergy = currentEnergy;
-                minPoint = point;
-            }
-        }
-        return minPoint;
-    }
-
-    private void calculateBestDistances(List<String> convertedPoints, Map<String, Double> cummulativeEnergies,
-                                        Map<String, String> distTo, Point point, List<Point> upperAdjacents) {
-        double minEnergy = Double.MAX_VALUE;
-        double currentPointEnergy = energy[point.x][point.y];
-        for (Point adjacentPoint : upperAdjacents) {
-            if (convertedPoints.contains(adjacentPoint.toString())) {
-                int adjX = adjacentPoint.x;
-                int adjY = adjacentPoint.y;
-                double adjacentEnergy = energy[adjX][adjY];
-                if (cummulativeEnergies.get(adjacentPoint.toString()) != null) {
-                    adjacentEnergy = cummulativeEnergies.get(adjacentPoint.toString());
-                }
-                if (adjacentEnergy < minEnergy) {
-                    cummulativeEnergies.put(point.toString(), adjacentEnergy + currentPointEnergy);
-                    distTo.put(point.toString(), adjacentPoint.toString());
-                    minEnergy = adjacentEnergy;
-                }
-            }
-        }
-    }
-
-    private int[] constructPath(Map<String, String> distTo, Point point, String pointWithTheMinimumEnergy) {
-        String anchorPoint = point.toString();
-        Stack<Integer> pathUnderConstruction = new Stack<>();
-
-        StringTokenizer intiStringTokenizer = new StringTokenizer(pointWithTheMinimumEnergy,",");
-        intiStringTokenizer.nextToken();
-        String initY = intiStringTokenizer.nextToken();
-        int initExtractedY = Integer.parseInt(initY.substring(1, initY.length() - 1));
-        pathUnderConstruction.push(initExtractedY);
-
-        while (!pointWithTheMinimumEnergy.equals(anchorPoint)) {
-            pointWithTheMinimumEnergy = distTo.get(pointWithTheMinimumEnergy);
-            StringTokenizer stringTokenizer = new StringTokenizer(pointWithTheMinimumEnergy,",");
-            stringTokenizer.nextToken();
-            String y = stringTokenizer.nextToken();
-            int extractedY = Integer.parseInt(y.substring(1, y.length() - 1));
-            pathUnderConstruction.push(extractedY);
-        }
-
-        int[] path = new int[pathUnderConstruction.size()];
-        for (int i = 0; i < path.length; i++) {
-            path[i] = pathUnderConstruction.pop();
-        }
-
-        return path;
-    }
-
-    private boolean isOutOfRange(int x, int y) {
-        boolean isOutOfRange = false;
-        if (y < 0) { isOutOfRange = true; }
-        if (x > height) { isOutOfRange = true; }
-        if (y > width) { isOutOfRange = true; }
-        return isOutOfRange;
-    }
-
-    private void addToTopologicalSortedList(List<Point> currentAdjacents, List<Point> topologicalSortedPoints) {
-        for (Point currentAdjacent : currentAdjacents) {
-            topologicalSortedPoints.add(currentAdjacent);
-        }
-
-    }
-
-    private int[] findBestPathForm(int x, int y) {
-        return null;
-    }
-
-    public void removeHorizontalSeam(int[] seam) {}
-
-    public void removeVerticalSeam(int[] seam) {}
-
-    public static void main(String[] args) {
-        Picture picture = new Picture("6x5.png");
-        SeamCarver seamCarver = new SeamCarver(picture);
-
-
-        String energyTable = Arrays.deepToString(seamCarver.energy);
-
-        seamCarver.findVerticalSeam();
-        System.out.println("energyTable = " + energyTable);
-    }
-
-    private final class Point {
-        private final int x;
-        private final int y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-        public int getY() {
-            return y;
-        }
-
-        @Override
-        public String toString() {
-          return "(" + x + ", " + y + ")";
-        }
-    }
 }
-
